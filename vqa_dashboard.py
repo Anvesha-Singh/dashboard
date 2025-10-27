@@ -33,6 +33,12 @@ st.markdown("""
     p {
         color: #B0B8C4 !important;
     }
+    li {
+        color: #B0B8C4 !important;
+    }
+    h4 {
+        color: #ffffff !important;
+    }
     .feature-card {
         background: rgba(30, 58, 95, 0.3);
         padding: 1.5rem;
@@ -465,7 +471,7 @@ def main():
             label_visibility="collapsed"
         )
 
-        if st.button("🔍 Analyze Image", key="analyze_image_btn"):
+        if st.button("#### 🔍 Analyze Image", key="analyze_image_btn"):
             if image_file:
                 st.session_state.analysis_mode = "image"
                 st.session_state.uploaded_file = image_file
@@ -484,7 +490,7 @@ def main():
             label_visibility="collapsed"
         )
 
-        if st.button("📊 Run Simulation", key="analyze_sim_btn"):
+        if st.button("#### 📊 Run Simulation", key="analyze_sim_btn"):
             if sim_file:
                 st.session_state.analysis_mode = "simulation"
                 st.session_state.uploaded_file = sim_file
