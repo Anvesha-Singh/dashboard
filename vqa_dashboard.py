@@ -30,6 +30,9 @@ st.markdown("""
     h3 {
         color: #ffffff !important;  
     }
+    p {
+        color: #B0B8C4 !important;
+    }
     .feature-card {
         background: rgba(30, 58, 95, 0.3);
         padding: 1.5rem;
