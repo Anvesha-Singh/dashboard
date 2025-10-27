@@ -6,7 +6,6 @@ import io
 import os
 import tempfile
 import time
-import torch
 
 # Page configuration with dark theme
 st.set_page_config(
