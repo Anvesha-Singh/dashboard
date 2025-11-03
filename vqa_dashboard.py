@@ -480,54 +480,44 @@ def main():
                 st.error("Please upload an image first")
 
     with col2:
-        st.markdown("### ⚡ Simulation Analysis")
-        st.markdown("Upload LTspice .asc files for SPICE simulation and waveform analysis")
+        st.markdown("### 💬 Ask a question")
+        st.markdown("Type a natural-language question about your uploaded circuit image")
 
-        sim_file = st.file_uploader(
-            "Choose a simulation file",
-            type=["asc"],
-            key="sim_uploader",
-            label_visibility="collapsed"
-        )
+        if (
+            st.session_state.get("analysis_mode") == "image"
+            and st.session_state.get("uploaded_file") is not None
+        ):
+            # Question input and actions now live in the right column
+            question = st.text_input(
+                "Ask a question about your circuit",
+                placeholder="e.g., What components are in this circuit? Identify any defects.",
+                key="question_input",
+                value=st.session_state.get("question", "")
+            )
 
-        if st.button("#### 📊 Run Simulation", key="analyze_sim_btn"):
-            if sim_file:
-                st.session_state.analysis_mode = "simulation"
-                st.session_state.uploaded_file = sim_file
-                st.session_state.show_result = False
-            else:
-                st.error("Please upload a simulation file first")
+            col_submit, col_clear = st.columns([3, 1])
+
+            with col_submit:
+                if st.button("#### 🚀 Get Answer", type="primary", use_container_width=True):
+                    if question.strip():
+                        st.session_state.question = question
+                        st.session_state.show_result = True
+                    else:
+                        st.error("Please enter a question")
+
+            with col_clear:
+                if st.button("#### 🔄 Clear", use_container_width=True):
+                    st.session_state.analysis_mode = None
+                    st.session_state.uploaded_file = None
+                    st.session_state.question = ""
+                    st.session_state.show_result = False
+                    st.rerun()
+        else:
+            st.info("Upload an image and click ‘Analyze Image’ to ask a question.")
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # Question input section
-    if st.session_state.analysis_mode and st.session_state.uploaded_file:
-        st.markdown("---")
-
-        question = st.text_input(
-            "Ask a question about your circuit",
-            placeholder="e.g., What components are in this circuit? Analyze the transient response. Identify any defects.",
-            key="question_input",
-            value=st.session_state.question
-        )
-
-        col_submit, col_clear = st.columns([3, 1])
-
-        with col_submit:
-            if st.button("🚀 Get Answer", type="primary", use_container_width=True):
-                if question.strip():
-                    st.session_state.question = question
-                    st.session_state.show_result = True
-                else:
-                    st.error("Please enter a question")
-
-        with col_clear:
-            if st.button("🔄 Clear", use_container_width=True):
-                st.session_state.analysis_mode = None
-                st.session_state.uploaded_file = None
-                st.session_state.question = ""
-                st.session_state.show_result = False
-                st.rerun()
+    # Question input section has been moved into the right column above
 
     # Results section
     if st.session_state.show_result and st.session_state.uploaded_file and st.session_state.question:
